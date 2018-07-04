@@ -1,0 +1,90 @@
+{
+ "A": {
+  "E": {
+   "history": [
+    {
+     "date": "5/7", 
+     "count": 61
+    }, 
+    {
+     "date": "5/9", 
+     "count": 59
+    }
+   ], 
+   "best": 60, 
+   "recent": 51
+  }, 
+  "D": {
+   "history": [
+    {
+     "date": "5/7", 
+     "count": 61
+    }, 
+    {
+     "date": "5/9", 
+     "count": 59
+    }
+   ], 
+   "best": 60, 
+   "recent": 51
+  }, 
+  "G": {
+   "history": [
+    {
+     "date": "5/7", 
+     "count": 61
+    }, 
+    {
+     "date": "5/9", 
+     "count": 59
+    }
+   ], 
+   "best": 60, 
+   "recent": 51
+  }
+ }, 
+ "E": {
+  "A": {
+   "history": [
+    {
+     "date": "5/7", 
+     "count": 61
+    }, 
+    {
+     "date": "5/9", 
+     "count": 59
+    }
+   ], 
+   "best": 60, 
+   "recent": 51
+  }, 
+  "D": {
+   "history": [
+    {
+     "date": "5/7", 
+     "count": 61
+    }, 
+    {
+     "date": "5/9", 
+     "count": 59
+    }
+   ], 
+   "best": 60, 
+   "recent": 51
+  }, 
+  "G": {
+   "history": [
+    {
+     "date": "5/7", 
+     "count": 61
+    }, 
+    {
+     "date": "5/9", 
+     "count": 59
+    }
+   ], 
+   "best": 60, 
+   "recent": 51
+  }
+ }
+}
