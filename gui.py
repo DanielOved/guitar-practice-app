@@ -1,18 +1,32 @@
 #! /usr/bin/python2.7
 
 import Tkinter as tk
-import csv #for saving, but might want to move this later
 from timer import Timer
+from datetime import date
+from chord import ChordPairSet, ChordPair
+import json
 
 class GUI():
     def __init__(self):
+        #initialize the GUI itself
         self.root = tk.Tk()
         self.timer = Timer(5)
         self.chordNum = 0
+
+        #get chordPair data from file
+        filename = "data.json"
+        with open(filename,"r") as f:
+            chord_dict = json.loads(f.read())
+
+        #generate all pairs and fill in data from file
+        self.chordPS = ChordPairSet()
+        self.chordPS.updateAllPairs(chord_dict)
+        self.chordSet = self.chordPS.sortRecent()
+
         # Labels/Entries
-        self.labelChord = tk.Label(text="getChords(self.chordNum)")
+        self.labelChord = tk.Label(text=self.chordSet[self.chordNum])
         self.labelTimer = tk.Label(text="0")
-        self.entryVal   = tk.Entry(text="0",width=5)
+        self.entryVal   = tk.Entry(width=5)
         # Buttons
         self.start = tk.Button(text='Start', command=self.timer.start).grid(row=5,column=0)
         self.reset = tk.Button(text='Reset', command=self.timer.reset).grid(row=5,column=1)
@@ -32,18 +46,23 @@ class GUI():
     def next(self):
         self.chordNum += 1
         try:
-            self.labelChord.configure(text="getChords(self.chordNum)")
+            self.labelChord.configure(text=self.chordSet[self.chordNum])
         except IndexError:
             self.chordNum = 0
-            self.labelChord.configure(text="getChords(self.chordNum)")
+            self.labelChord.configure(text=self.chordSet[self.chordNum])
 
     def saveEntry(self):
-        #print self.entryVal.get()
-        chord1, chord2 = "getChords(self.chordNum)", "blank"
-        data = [chord1, chord2, "7/3", self.entryVal.get()] #TODO: dynamic date
-        with open(filename, 'a') as f:
-            writer = csv.writer(f)
-            writer.writerow(data)
+        #update pair data
+        thisChord = self.chordSet[self.chordNum]
+        d = date.today().strftime("%m/%d")
+        print d
+        val = self.entryVal.get() #TODO: make sure it's an int
+        self.chordPS.getPair(thisChord).add(val,d)
+        print self.chordPS.getPair(thisChord)
+        #save data
+        fname2 = "data.json"
+        self.chordPS.save(fname2)
+        return
 
     def updateTimer(self):
         try:

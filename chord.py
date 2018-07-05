@@ -1,61 +1,13 @@
-from sets import Set
+import json
 
 allChords = ['A','Am','D','Dm','E','Em','C','G']
 
-def generateData(chord1,chord2,count):
-    #formats history and updates recent and/or best score for given chord pair
-    return chord1,chord2,count,time.time()
 
-def getPairs(dic):
-    #lists all chord pairs (use a set) from a dict
-    allpairs = set()
-    bestD = {}
-    recentD = {}
-    for chord1 in allChords:
-        if chord1 in dic.keys():
-            for chord2 in allChords:
-                if chord2 in dic[chord1]:
-                    chord = dic[chord1][chord2]
-                    scoreHi, scoreRecent = chord["best"], chord["recent"]
-                    #new pair found, add it to the set
-                    #sortPair = sorted((chord1,chord2))
-                    sortPair = (chord1,chord2)
-                    tup = (sortPair[0],sortPair[1])
-                    allpairs.add(tup)
-                    bestD[tup] = scoreHi
-                    recentD[tup] = scoreRecent
-
-    return allpairs,bestD,recentD
-
-def getChordData(dic):
-    chordData = set()
-    for chord1 in allChords:
-        if chord1 in dic.keys():
-            for chord2 in allChords:
-                if chord2 in dic[chord1]:
-                    chord = dic[chord1][chord2]
-                    scoreHi, scoreRecent = chord["best"], chord["recent"]
-                    #new pair found, add it to the set
-                    sortPair = sorted((chord1,chord2))
-                    sortPair = (chord1,chord2)
-                    tup = (sortPair[0],sortPair[1],scoreHi,scoreRecent)
-                    chordData.add(tup)
-    return chordData
-
-def getPair(pair,chordDict):
-    #returns copy of pair
-    try:
-        chord = chordDict.get(pair[0]).get(pair[1])
-    except KeyError:
-        return (None,None)
-    else:
-        scoreHi, scoreRecent, hist = chord["best"], chord["recent"], chord["history"]
-        return pair, scoreHi, scoreRecent, hist
 
 class ChordPairSet():
     def __init__(self):
-        self.chords = sorted(allChords)
-        self.allPairs = Set()
+        self.chords = sorted(['A','Am','D','Dm','E','Em','C','G'])
+        self.allPairs = set()
         self.createChordPairs()
 
     def getPair(self, pairId):
@@ -69,9 +21,16 @@ class ChordPairSet():
             self.getPair(pairId).add(d[0],d[1])
         return
 
-    def sortWorst(self, method=0):
-        #sorts by worst high score (method=0) or worst recent score (method=1)
-        return
+    def sortRecent(self):
+        #sorts by lowest recent score
+        return sorted(self.allPairs, key=lambda x: x.recent)
+
+    def sortBest(self):
+        #sorts by lowest best score
+        return sorted(self.allPairs, key=lambda x: x.best)
+
+    def sortPairs(self):
+        return sorted(self.allPairs, key=lambda x: x.chords)
 
     def createChordPairs(self):
         #generate set of all possible ChordPairs
@@ -93,19 +52,34 @@ class ChordPairSet():
                             data = dic[chord1][chord2]["history"]
                             self.updatePair(pairId, data)
 
-    def save(self):
+    def save(self,filename):
+        #turn chordPairs into json-able dict and saves it
+        d = {}
+        #print len(self.allPairs)
+        sp = self.sortPairs()
+
+        for ch in self.chords:
+            d[ch] = {}
+
+        for pair in sp:
+            newEntry = pair.createDict()
+            ch1, ch2 = pair.chords[0], pair.chords[1]
+            d[ch1][ch2] = newEntry[ch1][ch2]
+
+        with open(filename,"w") as f:
+            json.dump(d,f,sort_keys=True,indent=1)
         return
 
 class ChordPair(object):
-    def __init__(self,chord1,chord2,best=0,recent=0,history=[]):
+    def __init__(self,chord1,chord2):
         self.chords = tuple(sorted((chord1,chord2)))
-        self.best = best
-        self.recent = recent
-        self.history = history
+        self.best = 0
+        self.recent = 0
+        self.history = []
         self.update()
 
     def __str__(self):
-        return "{}: Best = {}, Recent = {}".format(self.chords,self.best,self.recent)
+        return "{}, {}:\nBest = {}, Recent = {}".format(self.chords[0],self.chords[1],self.best,self.recent,self.history)
 
     def __hash__(self):
         return hash(self.chords)
@@ -114,7 +88,7 @@ class ChordPair(object):
         return(self.__class__ == other.__class__ and self.chords == other.chords)
 
     def __ne__(self,other):
-        return(self.__class__ != other.__class__ and self.hash != other.hash)
+        return(self.__class__ != other.__class__ and self.chords != other.chords)
 
     def getRecent(self):
         if self.history != []:
@@ -129,11 +103,23 @@ class ChordPair(object):
         return self.best
 
     def update(self):
+        self.history = sorted(self.history, key = lambda x: x[1])
         self.getBest()
         self.getRecent()
         return
 
     def add(self,count,date):
-        self.history.append((count,date))
-        self.update()
+        if not (count,date) in self.history:
+            self.history.append((count,date))
+            self.update()
         return
+
+    def createDict(self):
+        #turn pair into json-ready dict
+        d = {}
+        d[self.chords[0]]={self.chords[1]:
+            {"best":self.best,
+            "recent":self.recent,
+            "history":[list(x) for x in self.history]}
+            }
+        return d
