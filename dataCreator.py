@@ -42,8 +42,8 @@ d = {
 					{"date":"5/9","count": 59}
                 ]
             },
-          },
+          }
 }
 
 with open("chordData.json","w") as f:
-    json.dump(d,f,indent=1)
+    json.dumps(str(d),f,indent=1)
