@@ -6,13 +6,17 @@ from datetime import date
 from chord import ChordPairSet, ChordPair
 import json
 from PIL import Image, ImageTk
+import matplotlib
+matplotlib.use("TkAgg")
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
+from matplotlib.figure import Figure
 
 class GUI():
     def __init__(self):
         #initialize the GUI itself
         self.root = tk.Tk()
         self.root.title("One Minute Changes")
-        bgColor = 'lightsteelblue3'
+        bgColor = 'gray21'
         self.root.configure(bg=bgColor)
         self.timer = Timer(60)
         self.chordNum = 0
@@ -27,7 +31,7 @@ class GUI():
         topFrame.pack(side='top')
         timerFrame = tk.Frame(self.root,bg=bgColor)
         timerFrame.pack()
-        botFrame = tk.Frame(self.root,bg=bgColor)
+        botFrame = tk.Frame(self.root,bg=bgColor,pady='5')
         botFrame.pack()
 
         #generate all pairs and fill in data from file
@@ -36,16 +40,15 @@ class GUI():
         self.chordSet = self.chordPS.sortRecent()
 
         # Labels/Entries
-        self.labelChord = tk.Label(topFrame, text=self.chordSet[self.chordNum],font=("Courier", 20),bg=bgColor,pady='5',wraplength='200')
+        self.labelChord = tk.Label(topFrame, text=self.chordSet[self.chordNum],
+                        font=("Courier", 20),bg=bgColor,fg='white',pady='5',wraplength='200')
         self.labelTimer = tk.Label(timerFrame,text="60",font=("Courier", 44),bg=bgColor)
         self.labelTimer.pack(side='top')
 
         self.entryVal   = tk.Entry(botFrame,width=2,bg='lavender',highlightbackground=bgColor,) #TODO: add int validation
         self.entryVal.pack(side='top',fill='x')
-        #self.entryVal.insert(0," (count)")
-        self.labelChord.pack(side='top')
 
-        # Images
+        # Icons
         startImg = Image.open('./images/play.png')
         startImg = startImg.resize((25, 25))
         startIm = ImageTk.PhotoImage(startImg)
@@ -62,19 +65,45 @@ class GUI():
         bwImg = bwImg.resize((25, 25))
         bwIm = ImageTk.PhotoImage(bwImg)
 
+        # f = Figure(figsize=(5,5), dpi=100)
+        # a = f.add_subplot(111)
+        # a.plot([1,2,3,4,5,6,7,8],[5,6,1,3,8,9,3,5])
+        # self.canvas = FigureCanvasTkAgg(f)
+        # self.canvas.show()
+        # self.canvas.get_tk_widget().pack(side='bottom', fill='both', expand=True)
+        # # toolbar = NavigationToolbar2TkAgg(canvas, self)
+        # # toolbar.update()
+        # self.canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+
         # Buttons
-        self.start = tk.Button(timerFrame, image=startIm, width="20",height="20",bg='seagreen2',fg='black',highlightbackground=bgColor, command=self.timer.start).pack(side='left')
-        self.reset = tk.Button(timerFrame, image=stopIm, width="20",height="20",bg='palevioletred3', fg='black',highlightbackground=bgColor, command=self.timer.reset).pack(side='right')
-        self.stop  = tk.Button(timerFrame, image=pauseIm,width="20",height="20",bg='lightsteelblue3',fg='black',highlightbackground=bgColor, command=self.timer.stopTimer).pack()
-        self.save  = tk.Button(botFrame, text='Save', bg='slategray1',fg='black', highlightbackground=bgColor,command=self.saveEntry).pack(side="bottom",fill='x')
-        self.next  = tk.Button(topFrame, image=fwIm, width="50",height="25", bg='slategray1',fg='black', highlightbackground=bgColor,command=self.next).pack(side='right',fill='x')
-        self.prev  = tk.Button(topFrame,image=bwIm,width="50",height="25",bg='slategray1',fg='black',highlightbackground=bgColor, command=self.prev).pack(side='left',fill='x')
+        self.start = tk.Button(timerFrame, image=startIm,
+                    width="20",height="20",bg='seagreen2',fg='black',relief='flat',
+                    highlightbackground=bgColor, command=self.timer.start).pack(side='left')
+        self.reset = tk.Button(timerFrame, image=stopIm,
+                    width="20",height="20",bg='palevioletred3', fg='black',relief='flat',
+                    highlightbackground=bgColor, command=self.timer.reset).pack(side='right')
+        self.stop  = tk.Button(timerFrame, image=pauseIm,
+                    width="20",height="20",bg='lightsteelblue2',fg='black',relief='flat',
+                    highlightbackground=bgColor, command=self.timer.stopTimer).pack()
+        self.save  = tk.Button(botFrame, text='Save',
+                    bg='slategray1',fg='black',relief='flat',
+                    highlightbackground=bgColor,command=self.saveEntry).pack(side="bottom",fill='x')
+        self.next  = tk.Button(topFrame, image=fwIm,
+                    width="50",height="25", bg=bgColor,fg='black',relief='flat',
+                    highlightbackground=bgColor,command=self.next).pack(side='right',fill='x')
+        self.prev  = tk.Button(topFrame,image=bwIm,
+                    width="50",height="25",bg=bgColor,fg='black', relief='flat',
+                    highlightbackground=bgColor, command=self.prev).pack(side='left',fill='x')
+
+        # Delayed Packing
+        self.labelChord.pack(side='top')
 
         # Functions
         self.updateTimer()
         self.root.mainloop()
-        self.saveEntry()
-        self.next()
+
+
+    #def showGraph(self):
 
 
     def next(self):

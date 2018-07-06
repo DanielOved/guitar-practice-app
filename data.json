@@ -102,9 +102,14 @@
    "recent": 0
   }, 
   "E": {
-   "best": 0, 
-   "history": [], 
-   "recent": 0
+   "best": "", 
+   "history": [
+    [
+     "", 
+     "07/06"
+    ]
+   ], 
+   "recent": ""
   }, 
   "Em": {
    "best": 0, 
@@ -165,9 +170,14 @@
    "recent": 0
   }, 
   "Em": {
-   "best": 0, 
-   "history": [], 
-   "recent": 0
+   "best": "", 
+   "history": [
+    [
+     "", 
+     "07/06"
+    ]
+   ], 
+   "recent": ""
   }, 
   "G": {
    "best": "1", 
