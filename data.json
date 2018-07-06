@@ -6,9 +6,14 @@
    "recent": 0
   }, 
   "C": {
-   "best": 0, 
-   "history": [], 
-   "recent": 0
+   "best": "25", 
+   "history": [
+    [
+     "25", 
+     "07/06"
+    ]
+   ], 
+   "recent": "25"
   }, 
   "D": {
    "best": 70, 
@@ -25,9 +30,14 @@
    "recent": 59
   }, 
   "Dm": {
-   "best": 0, 
-   "history": [], 
-   "recent": 0
+   "best": "32", 
+   "history": [
+    [
+     "32", 
+     "07/06"
+    ]
+   ], 
+   "recent": "32"
   }, 
   "E": {
    "best": 70, 
@@ -44,9 +54,14 @@
    "recent": 59
   }, 
   "Em": {
-   "best": 0, 
-   "history": [], 
-   "recent": 0
+   "best": "", 
+   "history": [
+    [
+     "", 
+     "07/06"
+    ]
+   ], 
+   "recent": ""
   }, 
   "G": {
    "best": 70, 
@@ -97,9 +112,14 @@
    "recent": 59
   }, 
   "Dm": {
-   "best": 0, 
-   "history": [], 
-   "recent": 0
+   "best": "38", 
+   "history": [
+    [
+     "38", 
+     "07/06"
+    ]
+   ], 
+   "recent": "38"
   }, 
   "E": {
    "best": "", 
@@ -112,9 +132,18 @@
    "recent": ""
   }, 
   "Em": {
-   "best": 0, 
-   "history": [], 
-   "recent": 0
+   "best": "67", 
+   "history": [
+    [
+     "66", 
+     "07/06"
+    ], 
+    [
+     "67", 
+     "07/06"
+    ]
+   ], 
+   "recent": "67"
   }, 
   "G": {
    "best": 70, 
@@ -133,41 +162,76 @@
  }, 
  "C": {
   "D": {
-   "best": 0, 
-   "history": [], 
-   "recent": 0
+   "best": "22", 
+   "history": [
+    [
+     "22", 
+     "07/06"
+    ]
+   ], 
+   "recent": "22"
   }, 
   "Dm": {
-   "best": 0, 
-   "history": [], 
-   "recent": 0
+   "best": "30", 
+   "history": [
+    [
+     "30", 
+     "07/06"
+    ]
+   ], 
+   "recent": "30"
   }, 
   "E": {
-   "best": 0, 
-   "history": [], 
-   "recent": 0
+   "best": "26", 
+   "history": [
+    [
+     "26", 
+     "07/06"
+    ]
+   ], 
+   "recent": "26"
   }, 
   "Em": {
-   "best": 0, 
-   "history": [], 
-   "recent": 0
+   "best": "39", 
+   "history": [
+    [
+     "39", 
+     "07/06"
+    ]
+   ], 
+   "recent": "39"
   }, 
   "G": {
-   "best": 0, 
-   "history": [], 
-   "recent": 0
+   "best": "24", 
+   "history": [
+    [
+     "24", 
+     "07/06"
+    ]
+   ], 
+   "recent": "24"
   }
  }, 
  "D": {
   "Dm": {
-   "best": 0, 
-   "history": [], 
-   "recent": 0
+   "best": "52", 
+   "history": [
+    [
+     "52", 
+     "07/06"
+    ]
+   ], 
+   "recent": "52"
   }, 
   "E": {
-   "best": 0, 
-   "history": [], 
-   "recent": 0
+   "best": "60", 
+   "history": [
+    [
+     "60", 
+     "07/06"
+    ]
+   ], 
+   "recent": "60"
   }, 
   "Em": {
    "best": "", 
@@ -196,36 +260,60 @@
  }, 
  "Dm": {
   "E": {
-   "best": 0, 
-   "history": [], 
-   "recent": 0
+   "best": "31", 
+   "history": [
+    [
+     "31", 
+     "07/06"
+    ]
+   ], 
+   "recent": "31"
   }, 
   "Em": {
-   "best": 0, 
-   "history": [], 
-   "recent": 0
+   "best": "34", 
+   "history": [
+    [
+     "34", 
+     "07/06"
+    ]
+   ], 
+   "recent": "34"
   }, 
   "G": {
-   "best": "12", 
+   "best": "26", 
    "history": [
     [
      "12", 
      "07/05"
+    ], 
+    [
+     "26", 
+     "07/06"
     ]
    ], 
-   "recent": "12"
+   "recent": "26"
   }
  }, 
  "E": {
   "Em": {
-   "best": 0, 
-   "history": [], 
-   "recent": 0
+   "best": "70", 
+   "history": [
+    [
+     "70", 
+     "07/06"
+    ]
+   ], 
+   "recent": "70"
   }, 
   "G": {
-   "best": 0, 
-   "history": [], 
-   "recent": 0
+   "best": "28", 
+   "history": [
+    [
+     "28", 
+     "07/06"
+    ]
+   ], 
+   "recent": "28"
   }
  }, 
  "Em": {

@@ -8,8 +8,11 @@ import json
 from PIL import Image, ImageTk
 import matplotlib
 matplotlib.use("TkAgg")
+import matplotlib.backends.tkagg as tkagg
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 from matplotlib.figure import Figure
+import numpy as np
+
 
 class GUI():
     def __init__(self):
@@ -33,11 +36,15 @@ class GUI():
         timerFrame.pack()
         botFrame = tk.Frame(self.root,bg=bgColor,pady='5')
         botFrame.pack()
+        self.chartFrame = tk.Frame(self.root,bg=bgColor)
+        self.chartFrame.pack(side='bottom')
+
 
         #generate all pairs and fill in data from file
         self.chordPS = ChordPairSet()
         self.chordPS.updateAllPairs(chord_dict)
         self.chordSet = self.chordPS.sortRecent()
+        #self.showChart(chartFrame,self.chordSet)
 
         # Labels/Entries
         self.labelChord = tk.Label(topFrame, text=self.chordSet[self.chordNum],
@@ -65,16 +72,6 @@ class GUI():
         bwImg = bwImg.resize((25, 25))
         bwIm = ImageTk.PhotoImage(bwImg)
 
-        # f = Figure(figsize=(5,5), dpi=100)
-        # a = f.add_subplot(111)
-        # a.plot([1,2,3,4,5,6,7,8],[5,6,1,3,8,9,3,5])
-        # self.canvas = FigureCanvasTkAgg(f)
-        # self.canvas.show()
-        # self.canvas.get_tk_widget().pack(side='bottom', fill='both', expand=True)
-        # # toolbar = NavigationToolbar2TkAgg(canvas, self)
-        # # toolbar.update()
-        # self.canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-
         # Buttons
         self.start = tk.Button(timerFrame, image=startIm,
                     width="20",height="20",bg='seagreen2',fg='black',relief='flat',
@@ -85,6 +82,10 @@ class GUI():
         self.stop  = tk.Button(timerFrame, image=pauseIm,
                     width="20",height="20",bg='lightsteelblue2',fg='black',relief='flat',
                     highlightbackground=bgColor, command=self.timer.stopTimer).pack()
+        self.show  = tk.Button(botFrame, text='Show Chart',
+                    bg='slategray1',fg='black',relief='flat',
+                    highlightbackground=bgColor,command=self.dispChart)
+        self.show.pack(side="bottom",fill='x')
         self.save  = tk.Button(botFrame, text='Save',
                     bg='slategray1',fg='black',relief='flat',
                     highlightbackground=bgColor,command=self.saveEntry).pack(side="bottom",fill='x')
@@ -101,10 +102,6 @@ class GUI():
         # Functions
         self.updateTimer()
         self.root.mainloop()
-
-
-    #def showGraph(self):
-
 
     def next(self):
         self.chordNum += 1
@@ -145,3 +142,39 @@ class GUI():
             elapsed = self.timer.get_seconds()
             self.labelTimer.configure(text=elapsed)
             self.root.after(1000, self.updateTimer)
+
+    def dispChart(self):
+        if len(self.chartFrame.winfo_children()) == 0: #if chart is hidden
+            self.showChart(self.chartFrame,self.chordSet)
+            self.show.configure(text="Hide Chart")
+        else:    #if chart is up
+            print self.chartFrame.winfo_children()
+            for child in self.chartFrame.winfo_children():
+                child.destroy()
+            self.show.configure(text="Show Chart")
+
+    def showChart(self, frame, obj): #TODO: include x and y data
+        self.frame = tk.Frame(frame)
+        self.f = Figure( figsize=(5, 5), dpi=80 )
+        self.ax0 = self.f.add_axes( (.125, .125, .75, .75), axisbg=(.75,.75,.75),frameon=True)
+        self.ax0.set_xlabel( 'Date' )
+        self.ax0.set_ylabel( 'Chord Changes' )
+        self.ax0.plot(np.max(np.random.rand(100,10)*10,axis=1),"r-")
+
+        self.frame = tk.Frame( frame )
+        self.frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=1)
+
+        self.canvas = FigureCanvasTkAgg(self.f, master=self.frame)
+        self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+        self.canvas.show()
+
+        self.toolbar = NavigationToolbar2TkAgg(self.canvas, self.frame )
+        self.toolbar.pack()
+        self.toolbar.update()
+
+    def plotPair(self):
+        self.ax0.plot(x,y)
+        return
+
+    def plotAllPairs(self):
+        return

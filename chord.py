@@ -2,8 +2,6 @@ import json
 
 allChords = ['A','Am','D','Dm','E','Em','C','G']
 
-
-
 class ChordPairSet():
     def __init__(self):
         self.chords = sorted(['A','Am','D','Dm','E','Em','C','G'])
@@ -89,6 +87,10 @@ class ChordPair(object):
 
     def __ne__(self,other):
         return(self.__class__ != other.__class__ and self.chords != other.chords)
+
+    def __getitem__(self,key):
+        print type(key)
+        return str(getattr(self,key))
 
     def getRecent(self):
         if self.history != []:
